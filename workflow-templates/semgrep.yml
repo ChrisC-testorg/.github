@@ -1,0 +1,38 @@
+name: Semgrep Check
+
+on:
+  pull_request:
+    branches:
+      - dev # change branch name if necessary
+      - $default-branch
+  push:
+    branches:
+      - $default-branch
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruleset: ["p/r2c-ci", "p/ali0818.firdoesh.khan"]
+
+    name: ${{ matrix.ruleset }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Semgrep
+        id: semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: ${{ matrix.ruleset }}
+          auditOn: push
+          generateSarif: "1"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: github.event_name == 'push' && always()
+        name: Upload SARIF File
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: semgrep.sarif

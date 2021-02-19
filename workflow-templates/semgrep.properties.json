@@ -1,0 +1,16 @@
+{
+  "name": "Semgrep Workflow Template",
+  "description": "GitHub Actions Workflow Template For Incorporation Semgrep Into CI",
+  "iconName": "semgrep.yml",
+  "categories": [
+    "Go",
+    "Java",
+    "JavaScript",
+    "JSON",
+    "Python",
+    "Ruby",
+    "TypeScript",
+    "JSX",
+    "TSX"
+  ]
+}
